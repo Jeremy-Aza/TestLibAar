@@ -38,9 +38,17 @@ publishing {
         create<MavenPublication>("release") {
             groupId = "com.example"
             artifactId = "deps_autocapture"
-            version = "1.0.0"
+            version = "1.0.1"
 
-            fileTree("libs").forEach { file -> artifact(file) }
+            fileTree("libs").forEach { file ->
+                val filename = file.nameWithoutExtension
+                val fileExt = file.extension
+
+                artifact(file) {
+                    classifier = filename
+                    extension = fileExt
+                }
+            }
         }
     }
 }
